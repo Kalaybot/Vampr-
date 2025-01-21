@@ -60,6 +60,46 @@ class Vampire {
     }
     return null;
   }
+
+  // Vampire Depth First Traversal
+  
+  // Returns the vampire object with that name, or null if no vampire exists with that name
+    vampireWithName(name) {
+      if (this.name === name) return this;
+  
+      for (let child of this.offspring) {
+        let found = child.vampireWithName(name);
+        if (found) return found;
+      }
+  
+      return null;
+    }
+  
+    // Returns the total number of vampires that exist
+    get totalDescendents() {
+      let count = 0;
+  
+      for (let child of this.offspring) {
+        count += 1 + child.totalDescendents;
+      }
+  
+      return count;
+    }
+  
+    // Returns an array of all the vampires that were converted after 1980
+    get allMillennialVampires() {
+      let millennials = [];
+  
+      if (this.yearConverted > 1980) {
+        millennials.push(this);
+      }
+  
+      for (let child of this.offspring) {
+        millennials.push(...child.allMillennialVampires);
+      }
+  
+      return millennials;
+    }
 }
 
 module.exports = Vampire;
